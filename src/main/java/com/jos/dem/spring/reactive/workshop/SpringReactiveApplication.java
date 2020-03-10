@@ -1,6 +1,6 @@
 package com.jos.dem.spring.reactive.workshop;
 
-import com.jos.dem.spring.reactive.workshop.service.DataBufferStreamer;
+import com.jos.dem.spring.reactive.workshop.service.FluxStreamer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -18,7 +18,7 @@ public class SpringReactiveApplication {
   }
 
   @Bean
-  CommandLineRunner run(DataBufferStreamer streamer){
+  CommandLineRunner run(FluxStreamer streamer){
     return args -> {
       streamer.stream("josdem")
           .subscribe(character -> log.info("c: {}", character));
