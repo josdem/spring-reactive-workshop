@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SpringReactiveApplication {
 
+  private String silenceFile =
+    "file:/Users/moralej3/Temporal/brandon_silence.raw";
+
   private Logger log = LoggerFactory.getLogger(this.getClass());
 
   public static void main(String[] args) {
@@ -20,8 +23,11 @@ public class SpringReactiveApplication {
   @Bean
   CommandLineRunner run(FluxStreamer streamer){
     return args -> {
-      streamer.stream("josdem")
-          .subscribe(character -> log.info("c: {}", character));
+      streamer.streamText("josdem")
+          .subscribe(character -> log.info("text: {}", character));
+
+      streamer.streamBinary(silenceFile)
+          .subscribe(bytes -> log.info("dataBuffer: {}", bytes));
     };
   }
 
