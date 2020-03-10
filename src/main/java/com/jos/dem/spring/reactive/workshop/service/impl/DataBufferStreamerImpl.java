@@ -13,9 +13,8 @@ public class DataBufferStreamerImpl implements DataBufferStreamer {
   private final DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
 
   @Override
-  public Flux<DataBuffer> stream(String nickname) {
-    DataBuffer buffer = dataBufferFactory.wrap(nickname.getBytes());
-    return Flux.just(buffer);
+  public Flux<String> stream(String nickname) {
+    return Flux.just("1","2","3");
   }
 
 }
