@@ -27,7 +27,7 @@ public class SpringReactiveApplication {
           .subscribe(character -> log.info("text: {}", character));
 
       streamer.streamBinary(silenceFile)
-          .subscribe(bytes -> log.info("dataBuffer: {}", bytes));
+          .subscribe(dataBuffer -> log.info("dataBuffer: {}", dataBuffer));
     };
   }
 
