@@ -23,7 +23,7 @@ public class PersonProcessor {
 
     Consumer<String> checkPerson = (name) -> {
       Mono<Person> person = personRepository.getByNickname(name);
-      log.info("person: {}", Mono.just(person));
+      log.info("person: {}", person.block());
     };
 
     Mono<String> engine = future
