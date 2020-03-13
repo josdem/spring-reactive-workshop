@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoProcessor;
 
@@ -22,8 +23,9 @@ public class PersonProcessor {
     MonoProcessor<String> future = MonoProcessor.create();
 
     Consumer<String> checkPerson = (name) -> {
-      Mono<Person> person = personRepository.getByNickname(name);
-      log.info("person: {}", person.block());
+      Person person = personRepository.getByNickname(name).block();
+      Assert.notNull(person.getNickname(), "should have nickname");
+      Assert.notNull(person.getEmail(), "should have an email");
     };
 
     Mono<String> engine = future
@@ -31,12 +33,10 @@ public class PersonProcessor {
         .doOnSuccess(name -> {
           log.info("Person with nickname: {} was found", name);
         })
-        .doOnError(ex -> System.out.println("Error: " + ex.getMessage()));
+        .doOnError(ex -> log.error("Error: " + ex.getMessage()));
 
-    engine.subscribe(System.out::println);
-
+    engine.subscribe(x -> log.info("Running"));
     future.onNext(nickname);
-    future.block();
   }
 
 }
