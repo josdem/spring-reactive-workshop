@@ -1,6 +1,7 @@
 package com.jos.dem.spring.reactive.workshop;
 
 import com.jos.dem.spring.reactive.workshop.service.PersonStreamService;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Subscriber;
@@ -25,26 +26,25 @@ public class PersonStreamServiceTest {
         new Subscriber<Void>() {
           @Override
           public void onSubscribe(Subscription s) {
-            log.info("Subscription: []", s);
+            log.info("Subscription: {}", ToStringBuilder.reflectionToString(s));
           }
 
           @Override
           public void onNext(Void aVoid) {
-              log.info("On next");
+            log.info("On next");
           }
 
           @Override
           public void onError(Throwable t) {
-              log.info("Transmission error");
+            log.info("Transmission error");
           }
 
           @Override
           public void onComplete() {
-              log.info("End of stream");
+            log.info("End of stream");
           }
         };
 
-    personStreamService.showThreads()
-            .subscribe(subscriber);
+    personStreamService.showThreads().subscribe(subscriber);
   }
 }

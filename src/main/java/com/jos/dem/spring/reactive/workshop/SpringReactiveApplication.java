@@ -1,5 +1,6 @@
 package com.jos.dem.spring.reactive.workshop;
 
+import com.jos.dem.spring.reactive.workshop.config.AudioProperties;
 import com.jos.dem.spring.reactive.workshop.service.FluxStreamer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +12,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SpringReactiveApplication {
 
-  private String silenceFile =
-    "file:/Users/moralej3/Temporal/brandon_silence.raw";
-
   private Logger log = LoggerFactory.getLogger(this.getClass());
 
   public static void main(String[] args) {
@@ -21,15 +19,13 @@ public class SpringReactiveApplication {
   }
 
   @Bean
-  CommandLineRunner run(FluxStreamer streamer){
+  CommandLineRunner run(FluxStreamer streamer, AudioProperties properties) {
     return args -> {
       streamer.streamText("josdem").subscribe(character -> log.info("text: {}", character));
 
       streamer
-          .streamBinary(silenceFile)
+          .streamBinary(properties.getSilence())
           .subscribe(dataBuffer -> log.info("dataBuffer: {}", dataBuffer));
     };
   }
-
-
 }
