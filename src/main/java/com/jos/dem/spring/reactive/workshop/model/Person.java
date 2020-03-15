@@ -11,5 +11,6 @@ public class Person {
 
   private String nickname;
   private String email;
+  private int rank;
 
 }
