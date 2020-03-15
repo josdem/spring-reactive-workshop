@@ -16,11 +16,11 @@ public class PersonRepository {
 
   @PostConstruct
   public void setup(){
-    Stream.of(new Person("josdem", "joseluis.delacruz@gmail.com"),
-        new Person("tgrip", "tgrip@email.com"),
-        new Person("edzero", "edzero@email.com"),
-        new Person("skuarch", "skuarch@email.com"),
-        new Person("jeduan", "jeduan@email.com"))
+    Stream.of(new Person("josdem", "joseluis.delacruz@gmail.com",5),
+        new Person("tgrip", "tgrip@email.com", 4),
+        new Person("edzero", "edzero@email.com", 3),
+        new Person("skuarch", "skuarch@email.com", 3),
+        new Person("jeduan", "jeduan@email.com", 5))
         .forEach(person -> persons.put(person.getNickname(), person));
   }
 
