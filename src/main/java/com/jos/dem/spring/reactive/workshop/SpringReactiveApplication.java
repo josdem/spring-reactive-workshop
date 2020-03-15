@@ -23,10 +23,10 @@ public class SpringReactiveApplication {
   @Bean
   CommandLineRunner run(FluxStreamer streamer){
     return args -> {
-      streamer.streamText("josdem")
-          .subscribe(character -> log.info("text: {}", character));
+      streamer.streamText("josdem").subscribe(character -> log.info("text: {}", character));
 
-      streamer.streamBinary(silenceFile)
+      streamer
+          .streamBinary(silenceFile)
           .subscribe(dataBuffer -> log.info("dataBuffer: {}", dataBuffer));
     };
   }
