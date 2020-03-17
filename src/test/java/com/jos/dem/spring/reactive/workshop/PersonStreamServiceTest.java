@@ -1,5 +1,8 @@
 package com.jos.dem.spring.reactive.workshop;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.jos.dem.spring.reactive.workshop.model.Person;
 import com.jos.dem.spring.reactive.workshop.service.PersonStreamService;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 public class PersonStreamServiceTest {
@@ -51,12 +57,19 @@ public class PersonStreamServiceTest {
   @Test
   @DisplayName("should get all persons")
   void shouldGetAllPersons() {
+    List<Person> result = new ArrayList<>();
+
     personStreamService
         .getPersons()
         .subscribe(
-            person -> log.info("person {}", person),
+            person -> {
+              log.info("person {}", person);
+              result.add(person);
+            },
             error -> log.error("Error {}", error),
             () -> log.info("All persons stream completed"));
+
+    assertEquals(5, result.size(), "should have five persons");
   }
 
   @Test
@@ -65,8 +78,30 @@ public class PersonStreamServiceTest {
     personStreamService
         .getPerson("josdem")
         .subscribe(
-            person -> log.info("person {}", person),
+            person -> {
+              log.info("person {}", person);
+              assertEquals(
+                  new Person("josdem", "joseluis.delacruz@gmail.com", 5),
+                  person,
+                  "should find josdem");
+            },
             error -> log.error("Error {}", error),
             () -> log.info("Person by nickname completed"));
+  }
+
+  @Test
+  @DisplayName("")
+  void shouldGetHighRankedPersons() {
+      List<Person> result = new ArrayList<>();
+
+      personStreamService.getHighRanked()
+              .subscribe(
+                      person -> {
+                        result.add(person);
+                      },
+                      error -> log.info("Error: {}", error),
+                      () -> log.info("completed")
+              );
+      assertEquals(3, result.size(), "should have three persons as high ranked");
   }
 }

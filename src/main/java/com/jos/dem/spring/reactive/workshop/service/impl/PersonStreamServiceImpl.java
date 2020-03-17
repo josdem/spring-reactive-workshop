@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class PersonStreamServiceImpl implements PersonStreamService {
 
+  private final int HIGH_RANK_VALUE = 4;
   private final PersonRepository personRepository;
 
   private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -38,6 +41,8 @@ public class PersonStreamServiceImpl implements PersonStreamService {
 
   @Override
   public Flux<Person> getHighRanked() {
-    return null;
+    return Flux.fromIterable(personRepository.getAll().toStream()
+            .filter(person -> person.getRank() >= HIGH_RANK_VALUE)
+            .collect(Collectors.toList()));
   }
 }
