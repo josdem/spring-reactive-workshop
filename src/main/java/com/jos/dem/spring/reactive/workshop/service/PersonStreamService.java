@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 public interface PersonStreamService {
     Mono<Void> showThreads();
-    Flux<Person> getEmployees();
-    Flux<Person> getEmployee(String nickname);
+    Flux<Person> getPersons();
+    Flux<Person> getPerson(String nickname);
     Flux<Person> getHighRanked();
 }

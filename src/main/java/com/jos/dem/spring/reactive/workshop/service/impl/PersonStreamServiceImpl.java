@@ -27,12 +27,12 @@ public class PersonStreamServiceImpl implements PersonStreamService {
   }
 
   @Override
-  public Flux<Person> getEmployees() {
+  public Flux<Person> getPersons() {
     return personRepository.getAll();
   }
 
   @Override
-  public Flux<Person> getEmployee(String nickname) {
+  public Flux<Person> getPerson(String nickname) {
     return null;
   }
 

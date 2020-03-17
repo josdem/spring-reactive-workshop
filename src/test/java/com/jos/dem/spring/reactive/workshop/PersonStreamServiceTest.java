@@ -1,5 +1,6 @@
 package com.jos.dem.spring.reactive.workshop;
 
+import com.jos.dem.spring.reactive.workshop.model.Person;
 import com.jos.dem.spring.reactive.workshop.service.PersonStreamService;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.jupiter.api.DisplayName;
@@ -46,5 +47,38 @@ public class PersonStreamServiceTest {
         };
 
     personStreamService.showThreads().subscribe(subscriber);
+  }
+
+  @Test
+  @DisplayName("should get all persons")
+  void shouldGetAllPersons() {
+    Subscriber<Person> subscriber =
+        new Subscriber<Person>() {
+          @Override
+          public void onSubscribe(Subscription s) {
+            log.info("Subscription: {}", ToStringBuilder.reflectionToString(s));
+          }
+
+          @Override
+          public void onNext(Person person) {
+            log.info("Person: {}", person);
+          }
+
+          @Override
+          public void onError(Throwable t) {
+            log.info("Transmission error");
+          }
+
+          @Override
+          public void onComplete() {
+            log.info("End of stream");
+          }
+        };
+
+    personStreamService.getPersons().subscribe(
+            person -> log.info("person {}", person),
+            error -> log.error("Error {}", error),
+            () -> log.info("completed")
+    );
   }
 }
