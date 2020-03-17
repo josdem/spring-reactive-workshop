@@ -32,8 +32,8 @@ public class PersonStreamServiceImpl implements PersonStreamService {
   }
 
   @Override
-  public Flux<Person> getPerson(String nickname) {
-    return null;
+  public Mono<Person> getPerson(String nickname) {
+    return personRepository.getByNickname(nickname);
   }
 
   @Override

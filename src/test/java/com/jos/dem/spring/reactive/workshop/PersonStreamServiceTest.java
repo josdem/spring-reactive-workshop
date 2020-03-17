@@ -1,6 +1,5 @@
 package com.jos.dem.spring.reactive.workshop;
 
-import com.jos.dem.spring.reactive.workshop.model.Person;
 import com.jos.dem.spring.reactive.workshop.service.PersonStreamService;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.junit.jupiter.api.DisplayName;
@@ -52,10 +51,22 @@ public class PersonStreamServiceTest {
   @Test
   @DisplayName("should get all persons")
   void shouldGetAllPersons() {
-    personStreamService.getPersons().subscribe(
+    personStreamService
+        .getPersons()
+        .subscribe(
             person -> log.info("person {}", person),
             error -> log.error("Error {}", error),
-            () -> log.info("completed")
-    );
+            () -> log.info("All persons stream completed"));
+  }
+
+  @Test
+  @DisplayName("should get person by nickname")
+  void shouldGePersonByNickname() {
+    personStreamService
+        .getPerson("josdem")
+        .subscribe(
+            person -> log.info("person {}", person),
+            error -> log.error("Error {}", error),
+            () -> log.info("Person by nickname completed"));
   }
 }

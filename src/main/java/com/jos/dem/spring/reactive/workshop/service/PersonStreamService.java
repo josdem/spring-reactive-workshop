@@ -8,6 +8,6 @@ import reactor.core.publisher.Mono;
 public interface PersonStreamService {
     Mono<Void> showThreads();
     Flux<Person> getPersons();
-    Flux<Person> getPerson(String nickname);
+    Mono<Person> getPerson(String nickname);
     Flux<Person> getHighRanked();
 }
