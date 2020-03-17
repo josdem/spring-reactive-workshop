@@ -52,29 +52,6 @@ public class PersonStreamServiceTest {
   @Test
   @DisplayName("should get all persons")
   void shouldGetAllPersons() {
-    Subscriber<Person> subscriber =
-        new Subscriber<Person>() {
-          @Override
-          public void onSubscribe(Subscription s) {
-            log.info("Subscription: {}", ToStringBuilder.reflectionToString(s));
-          }
-
-          @Override
-          public void onNext(Person person) {
-            log.info("Person: {}", person);
-          }
-
-          @Override
-          public void onError(Throwable t) {
-            log.info("Transmission error");
-          }
-
-          @Override
-          public void onComplete() {
-            log.info("End of stream");
-          }
-        };
-
     personStreamService.getPersons().subscribe(
             person -> log.info("person {}", person),
             error -> log.error("Error {}", error),
