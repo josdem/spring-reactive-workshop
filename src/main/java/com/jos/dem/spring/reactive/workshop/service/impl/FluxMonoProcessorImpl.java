@@ -40,7 +40,7 @@ public class FluxMonoProcessorImpl implements FluxMonoProcessor {
 
   @Override
   public Flux<String> processingNames(List<String> names) {
-    Function<String, String> lower = (str) -> str.toLowerCase();
+    Function<String, String> upper = (str) -> str.toUpperCase();
     Comparator<String> ascSort = (str1, str2) -> str1.compareTo(str2);
     Runnable complete =
         () -> {
@@ -53,13 +53,13 @@ public class FluxMonoProcessorImpl implements FluxMonoProcessor {
     Consumer<String> onNext = (string) -> log.info("Validated: " + string);
     Flux<String> userNames =
         Flux.fromIterable(names)
-            .map(lower)
+            .map(upper)
             .sort(ascSort)
             .defaultIfEmpty("Empty list")
             .doOnNext(onNext)
             .doOnComplete(complete)
             .doOnTerminate(terminate)
-            .doOnError(RuntimeException.class, (e) -> log.error("exits gracefully"));
+            .doOnError(RuntimeException.class, (e) -> log.error("Throws an exception"));
     return userNames;
   }
 }
