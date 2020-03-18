@@ -72,19 +72,20 @@ class FluxMonoProcessorTest {
     assertEquals("EDZERO", result.get(0), "should be ordered asc");
   }
 
-    @Test
-    @DisplayName("should process an empty list")
-    void shouldProcessAnEmptyList() {
-        List<String> result = new ArrayList<>();
+  @Test
+  @DisplayName("should process an empty list")
+  void shouldProcessAnEmptyList() {
+    List<String> result = new ArrayList<>();
 
-        Flux<String> processedNames = processor.processingNames(new ArrayList<>());
-        processedNames.subscribe(
-                value -> {
-                    result.add(value);
-                },
-                error -> log.error("Error: {}", error),
-                () -> log.info("complete"));
+    Flux<String> processedNames = processor.processingNames(new ArrayList<>());
+    processedNames.subscribe(
+        value -> {
+          result.add(value);
+        },
+        error -> log.error("Error: {}", error),
+        () -> log.info("complete"));
 
-        assertEquals("Empty list", result.get(0), "should have an empty list value");
-    }
+    assertEquals("Empty list", result.get(0), "should have an empty list value");
+  }
+
 }

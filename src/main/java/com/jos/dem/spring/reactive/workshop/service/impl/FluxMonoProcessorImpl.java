@@ -62,4 +62,5 @@ public class FluxMonoProcessorImpl implements FluxMonoProcessor {
             .doOnError(RuntimeException.class, (e) -> log.error("Throws an exception"));
     return userNames;
   }
+
 }
