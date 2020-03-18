@@ -1,6 +1,5 @@
 package com.jos.dem.spring.reactive.workshop;
 
-import com.jos.dem.spring.reactive.workshop.model.Person;
 import com.jos.dem.spring.reactive.workshop.service.FluxMonoProcessor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class FluxMonoProcessorTest {
@@ -71,4 +71,20 @@ class FluxMonoProcessorTest {
     assertEquals(5, result.size(), "should have five values");
     assertEquals("EDZERO", result.get(0), "should be ordered asc");
   }
+
+    @Test
+    @DisplayName("should process an empty list")
+    void shouldProcessAnEmptyList() {
+        List<String> result = new ArrayList<>();
+
+        Flux<String> processedNames = processor.processingNames(new ArrayList<>());
+        processedNames.subscribe(
+                value -> {
+                    result.add(value);
+                },
+                error -> log.error("Error: {}", error),
+                () -> log.info("complete"));
+
+        assertEquals("Empty list", result.get(0), "should have an empty list value");
+    }
 }
