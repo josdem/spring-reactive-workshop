@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class FluxMonoProcessorTest {
+class FluxMonoProcessorTest {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -34,4 +34,21 @@ public class FluxMonoProcessorTest {
                 () -> log.info("complete")
         );
     }
+
+    @Test
+    @DisplayName("should process a short name")
+    void shouldProcessShortName(){
+        String name = "Josh";
+        String expectedName = "Invalid name";
+
+        Mono<String> processedName = processor.processName(name);
+        processedName.subscribe(
+                value -> {
+                    assertEquals(value, expectedName, "should validate name");
+                },
+                error -> log.error("Error: {}", error),
+                () -> log.info("complete")
+        );
+    }
+
 }
