@@ -33,6 +33,6 @@ public class BackPressureStreamServiceTest {
         error -> log.info("Timeout reached: {}", error),
         () -> log.info("Completed"));
 
-    assertEquals(Arrays.asList("josdem", "tgrip", "edzero", "skuarch", "jeduan"), nicknames);
+    assertEquals(5, result.size());
   }
 }
