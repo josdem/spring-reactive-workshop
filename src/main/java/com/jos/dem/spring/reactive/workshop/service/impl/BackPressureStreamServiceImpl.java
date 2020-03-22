@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * TODO: Re-evaluate this functionality
+ */
+
 @Service
 @RequiredArgsConstructor
 public class BackPressureStreamServiceImpl implements BackPressureStreamService {
@@ -48,7 +52,7 @@ public class BackPressureStreamServiceImpl implements BackPressureStreamService 
   public Flux<String> getTimedNicknames() {
     Function<Person, String> nicknames = person -> person.getNickname();
     Supplier<Flux<String>> deferredTask = () -> personRepository.getAll().map(nicknames);
-    Flux<String> timedDefer = Flux.defer(deferredTask).log().timeout(Duration.ofMillis(320));
+    Flux<String> timedDefer = Flux.defer(deferredTask).timeout(Duration.ofMillis(320));
     return timedDefer;
   }
 }
