@@ -4,8 +4,7 @@ import com.jos.dem.spring.reactive.workshop.model.Person;
 import com.jos.dem.spring.reactive.workshop.repository.PersonRepository;
 import com.jos.dem.spring.reactive.workshop.service.BackPressureStreamService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -15,17 +14,13 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-/**
- * TODO: Re-evaluate this functionality
- */
-
+/** TODO: Re-evaluate this functionality */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BackPressureStreamServiceImpl implements BackPressureStreamService {
 
   private final PersonRepository personRepository;
-
-  private Logger log = LoggerFactory.getLogger(this.getClass());
 
   @Override
   public Mono<Person> selectOnePerson() {

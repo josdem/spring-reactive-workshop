@@ -4,22 +4,20 @@ import com.jos.dem.spring.reactive.workshop.model.Person;
 import com.jos.dem.spring.reactive.workshop.repository.PersonRepository;
 import com.jos.dem.spring.reactive.workshop.service.PersonStreamService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PersonStreamServiceImpl implements PersonStreamService {
 
   private final int HIGH_RANK_VALUE = 4;
   private final PersonRepository personRepository;
-
-  private Logger log = LoggerFactory.getLogger(this.getClass());
 
   @Override
   public Mono<Void> showThreads() {
@@ -41,7 +39,10 @@ public class PersonStreamServiceImpl implements PersonStreamService {
 
   @Override
   public Flux<Person> getHighRanked() {
-    return Flux.fromIterable(personRepository.getAll().toStream()
+    return Flux.fromIterable(
+        personRepository
+            .getAll()
+            .toStream()
             .filter(person -> person.getRank() >= HIGH_RANK_VALUE)
             .collect(Collectors.toList()));
   }

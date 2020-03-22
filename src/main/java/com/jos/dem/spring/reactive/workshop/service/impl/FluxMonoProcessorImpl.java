@@ -1,8 +1,7 @@
 package com.jos.dem.spring.reactive.workshop.service.impl;
 
 import com.jos.dem.spring.reactive.workshop.service.FluxMonoProcessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -13,10 +12,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+@Slf4j
 @Service
 public class FluxMonoProcessorImpl implements FluxMonoProcessor {
-
-  private Logger log = LoggerFactory.getLogger(this.getClass());
 
   @Override
   public Mono<String> processName(String name) {
@@ -62,5 +60,4 @@ public class FluxMonoProcessorImpl implements FluxMonoProcessor {
             .doOnError(RuntimeException.class, (e) -> log.error("Throws an exception"));
     return userNames;
   }
-
 }
