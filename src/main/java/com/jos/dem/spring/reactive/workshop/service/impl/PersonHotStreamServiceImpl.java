@@ -11,7 +11,9 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoProcessor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -21,6 +23,7 @@ import java.util.function.Function;
 public class PersonHotStreamServiceImpl implements PersonHotStreamService {
 
   private final PersonRepository personRepository;
+  private final Map<String, Person> persons = new HashMap<>();
 
   /** TODO: seems like is not returning cache elements */
   @Override
@@ -36,10 +39,11 @@ public class PersonHotStreamServiceImpl implements PersonHotStreamService {
   @Override
   public MonoProcessor<String> monoProcessorGetPerson(String nickname) {
     MonoProcessor<String> future = MonoProcessor.create();
+    persons.put("josdem", createNewPerson());
 
     Consumer<String> checkEmp =
         (n) -> {
-          if (personRepository.getByNickname(n).block() == null) {
+          if (persons.get(nickname) == null) {
             log.info("Person w/nickname: " + nickname + " does not exists.");
           } else {
             log.info("Person w/nickname: " + nickname + " exists.");
@@ -52,14 +56,18 @@ public class PersonHotStreamServiceImpl implements PersonHotStreamService {
             .doOnSuccess(
                 n -> {
                   log.info(
-                      "Person's email is " + personRepository.getByNickname(n).block().getEmail());
+                      "Person's email is {}", persons.get(n).getEmail());
                   log.info(
-                      "Person's rank is: " + personRepository.getByNickname(n).block().getRank());
+                      "Person's rank is: {}", persons.get(n).getRank());
                 })
             .doOnTerminate(() -> log.info("Transaction finished"))
             .doOnError(ex -> log.info("Error: " + ex.getMessage()));
 
-    engine.subscribe(System.out::println);
+    engine.subscribe();
     return future;
+  }
+
+  private Person createNewPerson(){
+      return new Person("josdem", "josdem@email.com", 5);
   }
 }

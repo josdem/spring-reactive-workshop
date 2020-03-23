@@ -35,5 +35,5 @@ public class PersonHotStreamServiceTest {
         error -> log.info("error: {}", error),
         () -> log.info(""));
   }
-  
+
 }
