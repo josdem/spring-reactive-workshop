@@ -33,7 +33,7 @@ public class PersonHotStreamServiceTest {
     result.subscribe(
         content -> assertEquals(nickname, content, "should be josdem"),
         error -> log.info("error: {}", error),
-        () -> log.info(""));
+        () -> log.info("complete"));
   }
 
 }
