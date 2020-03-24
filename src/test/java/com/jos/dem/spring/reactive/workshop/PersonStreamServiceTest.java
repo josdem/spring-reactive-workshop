@@ -115,4 +115,15 @@ public class PersonStreamServiceTest {
     assertEquals(5, result.size(), "should have five elements");
     assertTrue(result.contains("josdem"));
   }
+
+  @Test
+  @DisplayName("get ordered nicknames")
+  void shouldGetOrderedNicknames() {
+    List<String> result = new ArrayList<>();
+
+    personStreamService.getOrderedNicknames().subscribe(result::add);
+    assertEquals(5, result.size(), "should have five elements");
+    assertEquals(result.get(0), "edzero");
+    assertEquals(result.get(4), "tgrip");
+  }
 }
