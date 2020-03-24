@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,14 @@ public class PersonStreamServiceImpl implements PersonStreamService {
   public Flux<String> getNicknames() {
     Function<Person, String> nicknames = person -> person.getNickname();
     Flux<String> stream = personRepository.getAll().map(nicknames);
+    return stream;
+  }
+
+  @Override
+  public Flux<String> getOrderedNicknames() {
+    Function<Person, String> nicknames = person -> person.getNickname();
+    Comparator<String> descName = (n1, n2) -> n1.compareTo(n2);
+    Flux<String> stream = personRepository.getAll().map(nicknames).sort(descName);
     return stream;
   }
 }

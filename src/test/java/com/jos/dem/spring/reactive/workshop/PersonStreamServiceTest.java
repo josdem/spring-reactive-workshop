@@ -30,7 +30,7 @@ public class PersonStreamServiceTest {
   void shouldDisplayThreads() {
 
     Subscriber<Void> subscriber =
-        new Subscriber<Void>() {
+        new Subscriber<>() {
           @Override
           public void onSubscribe(Subscription s) {
             log.info("Subscription: {}", ToStringBuilder.reflectionToString(s));
