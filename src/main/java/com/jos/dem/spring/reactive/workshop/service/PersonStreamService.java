@@ -10,4 +10,5 @@ public interface PersonStreamService {
     Flux<Person> getPersons();
     Mono<Person> getPerson(String nickname);
     Flux<Person> getHighRanked();
+    Flux<String> getNicknames();
 }

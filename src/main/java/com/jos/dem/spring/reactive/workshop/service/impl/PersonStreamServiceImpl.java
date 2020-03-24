@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -45,5 +46,12 @@ public class PersonStreamServiceImpl implements PersonStreamService {
             .toStream()
             .filter(person -> person.getRank() >= HIGH_RANK_VALUE)
             .collect(Collectors.toList()));
+  }
+
+  @Override
+  public Flux<String> getNicknames() {
+    Function<Person, String> nicknames = person -> person.getNickname();
+    Flux<String> stream = personRepository.getAll().map(nicknames);
+    return stream;
   }
 }
