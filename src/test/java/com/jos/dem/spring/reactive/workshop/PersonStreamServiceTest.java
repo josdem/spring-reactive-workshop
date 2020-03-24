@@ -1,7 +1,5 @@
 package com.jos.dem.spring.reactive.workshop;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.jos.dem.spring.reactive.workshop.model.Person;
 import com.jos.dem.spring.reactive.workshop.service.PersonStreamService;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -16,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class PersonStreamServiceTest {
@@ -92,16 +93,26 @@ public class PersonStreamServiceTest {
   @Test
   @DisplayName("")
   void shouldGetHighRankedPersons() {
-      List<Person> result = new ArrayList<>();
+    List<Person> result = new ArrayList<>();
 
-      personStreamService.getHighRanked()
-              .subscribe(
-                      person -> {
-                        result.add(person);
-                      },
-                      error -> log.info("Error: {}", error),
-                      () -> log.info("completed")
-              );
-      assertEquals(3, result.size(), "should have three persons as high ranked");
+    personStreamService
+        .getHighRanked()
+        .subscribe(
+            person -> {
+              result.add(person);
+            },
+            error -> log.info("Error: {}", error),
+            () -> log.info("completed"));
+    assertEquals(3, result.size(), "should have three persons as high ranked");
+  }
+
+  @Test
+  @DisplayName("get nicknames")
+  void shouldGetNicknames() {
+    List<String> result = new ArrayList<>();
+
+    personStreamService.getNicknames().subscribe(result::add);
+    assertEquals(5, result.size(), "should have five elements");
+    assertTrue(result.contains("josdem"));
   }
 }
