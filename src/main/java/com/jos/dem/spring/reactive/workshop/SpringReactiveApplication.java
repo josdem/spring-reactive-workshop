@@ -1,6 +1,5 @@
 package com.jos.dem.spring.reactive.workshop;
 
-import com.jos.dem.spring.reactive.workshop.config.AudioProperties;
 import com.jos.dem.spring.reactive.workshop.service.FluxStreamer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import reactor.core.publisher.Flux;
+
+import java.time.Duration;
 
 @SpringBootApplication
 public class SpringReactiveApplication {
@@ -23,9 +25,11 @@ public class SpringReactiveApplication {
     return args -> {
       streamer.streamText("josdem").subscribe(character -> log.info("text: {}", character));
 
-      streamer
-          .streamBinary()
-          .subscribe(dataBuffer -> log.info("dataBuffer: {}", dataBuffer));
+      Flux.interval(Duration.ZERO).subscribe(content -> sendAudio(streamer));
     };
+  }
+
+  private void sendAudio(FluxStreamer streamer) {
+    streamer.streamBinary().subscribe(dataBuffer -> log.info("dataBuffer: {}", dataBuffer));
   }
 }
