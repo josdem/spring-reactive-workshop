@@ -11,4 +11,5 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "audio")
 public class AudioProperties {
     private String silence;
+    private int bufferSize;
 }

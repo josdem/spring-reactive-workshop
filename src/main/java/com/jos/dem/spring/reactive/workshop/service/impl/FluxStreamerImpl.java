@@ -1,5 +1,6 @@
 package com.jos.dem.spring.reactive.workshop.service.impl;
 
+import com.jos.dem.spring.reactive.workshop.config.AudioProperties;
 import com.jos.dem.spring.reactive.workshop.service.FluxStreamer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ResourceLoader;
@@ -17,6 +18,7 @@ public class FluxStreamerImpl implements FluxStreamer {
 
   private final DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
   private final ResourceLoader resourceLoader;
+  private final AudioProperties audioProperties;
 
   @Override
   public Flux<String> streamText(String nickname) {
@@ -24,10 +26,10 @@ public class FluxStreamerImpl implements FluxStreamer {
   }
 
   @Override
-  public Flux<DataBuffer> streamBinary(String file) {
+  public Flux<DataBuffer> streamBinary() {
     return
         DataBufferUtils
-            .read(resourceLoader.getResource(file), dataBufferFactory, StreamUtils.BUFFER_SIZE);
+            .read(resourceLoader.getResource(audioProperties.getSilence()), dataBufferFactory, audioProperties.getBufferSize());
   }
 
 }

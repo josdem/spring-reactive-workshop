@@ -19,12 +19,12 @@ public class SpringReactiveApplication {
   }
 
   @Bean
-  CommandLineRunner run(FluxStreamer streamer, AudioProperties properties) {
+  CommandLineRunner run(FluxStreamer streamer) {
     return args -> {
       streamer.streamText("josdem").subscribe(character -> log.info("text: {}", character));
 
       streamer
-          .streamBinary(properties.getSilence())
+          .streamBinary()
           .subscribe(dataBuffer -> log.info("dataBuffer: {}", dataBuffer));
     };
   }

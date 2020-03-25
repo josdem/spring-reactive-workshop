@@ -6,6 +6,6 @@ import reactor.core.publisher.Flux;
 public interface FluxStreamer {
 
   Flux<String> streamText(String nickname);
-  Flux<DataBuffer> streamBinary(String file);
+  Flux<DataBuffer> streamBinary();
 
 }
