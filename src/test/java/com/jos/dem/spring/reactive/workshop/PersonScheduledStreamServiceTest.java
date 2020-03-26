@@ -23,7 +23,16 @@ class PersonScheduledStreamServiceTest {
     void shouldExecutePublisherInExecutor(){
         List<Person> result = new ArrayList<>();
         service.createPublisherThread();
-        assertEquals(3, result.size(), "should be two persons");
+        assertEquals(3, result.size(), "should be three persons");
+    }
+
+    @Test
+    @DisplayName("should execute a publisher subscriber in a executor")
+    void shouldExecutePublisherSubscriberExecutor() throws Exception {
+        List<Person> result = new ArrayList<>();
+        service.createPublisherSubscriberWorkers();
+        Thread.sleep(5000);
+        assertEquals(3, result.size(), "should be three persons");
     }
 
 }

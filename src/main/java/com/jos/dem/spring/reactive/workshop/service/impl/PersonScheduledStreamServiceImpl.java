@@ -38,4 +38,20 @@ public class PersonScheduledStreamServiceImpl implements PersonScheduledStreamSe
         Flux<Person> deferred = Flux.defer(deferredTask).filter(highRanked).subscribeOn(scheduler);
         return deferred;
     }
+
+    @Override
+    public Flux<Person> createPublisherSubscriberWorkers() {
+        Scheduler subscriberWorker = Schedulers.newSingle("subscriber-thread");
+        Scheduler publisherWorker = Schedulers.newSingle("publisher-thread");
+        Predicate<Person> highRanked = person -> {
+            log.info("Flux filter task executor: {}", Thread.currentThread().getName());
+            return person.getRank() >= 4;
+        };
+        Supplier<Flux<Person>> deferredTask = () -> {
+            log.info("Flux defer task executor: {}", Thread.currentThread().getName());
+            return personRepository.getAll();
+        };
+        Flux<Person> deferred = Flux.defer(deferredTask).filter(highRanked).subscribeOn(subscriberWorker).publishOn(publisherWorker);
+        return deferred;
+    }
 }
