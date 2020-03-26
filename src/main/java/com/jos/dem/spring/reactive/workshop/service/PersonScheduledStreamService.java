@@ -5,4 +5,5 @@ import reactor.core.publisher.Flux;
 
 public interface PersonScheduledStreamService {
     Flux<Person> createPublisherThread();
+    Flux<Person> createPublisherSubscriberWorkers();
 }
