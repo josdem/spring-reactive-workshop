@@ -49,13 +49,25 @@ public class PersonVerifierTest {
         .verify();
   }
 
-    @Test
-    @DisplayName("concat with nicknames")
-    public void testOnComplete() {
-        List<String> names = Arrays.asList("john", "mark", "bob", "spencer", "skye");
-        StepVerifier.create(personTransformStream.concatWithNames(names))
-                .expectNext("BOB", "EDZERO", "JEDUAN", "JOHN", "JOSDEM", "MARK", "SKUARCH", "SKYE", "SPENCER", "TGRIP")
-                .expectComplete()
-                .verify();
-    }
+  @Test
+  @DisplayName("concat with nicknames")
+  public void testOnComplete() {
+    List<String> names = Arrays.asList("john", "mark", "bob", "spencer", "skye");
+    StepVerifier.create(personTransformStream.concatWithNames(names))
+        .expectNext(
+            "BOB", "EDZERO", "JEDUAN", "JOHN", "JOSDEM", "MARK", "SKUARCH", "SKYE", "SPENCER",
+            "TGRIP")
+        .expectComplete()
+        .verify();
+  }
+
+  @Test
+  @DisplayName("group nicknames")
+  void shouldGroupNicknames() {
+    StepVerifier.create(personTransformStream.groupNicknames().blockFirst())
+        .expectSubscription()
+        .expectNext("SKUARCH")
+        .expectComplete()
+        .verify();
+  }
 }
